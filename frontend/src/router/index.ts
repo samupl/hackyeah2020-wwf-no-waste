@@ -1,3 +1,4 @@
+import CategoriesCRUD from '@/views/CategoriesCRUD.vue';
 import TagsCRUD from '@/views/TagsCRUD.vue';
 import Vue from "vue";
 import VueRouter, { RouteConfig } from "vue-router";
@@ -15,6 +16,11 @@ const routes: Array<RouteConfig> = [
     path: "/tags",
     name: "Tags",
     component: TagsCRUD
+  },
+  {
+    path: "/categories",
+    name: "Categories",
+    component: CategoriesCRUD
   },
 ];
 

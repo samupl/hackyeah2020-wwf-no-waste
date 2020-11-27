@@ -3,14 +3,14 @@ import CRUDView from "@/components/base/CRUDView.vue";
 import { Component } from "vue-property-decorator";
 import { VTextField } from "vuetify/lib";
 
-interface Tag {
+interface Category {
   id?: number;
   name: string;
 }
 
 @Component
-export default class TagsCRUD extends CRUDView<Tag> {
-  public itemName = "tag";
+export default class CategoriesCRUD extends CRUDView<Category> {
+  public itemName = "category";
   public headers = [
     {
       text: "Name",
@@ -27,17 +27,17 @@ export default class TagsCRUD extends CRUDView<Tag> {
     }
   ];
 
-  public items: Tag[] = [];
+  public items: Category[] = [];
   public defaultItem = {
     name: ""
   };
 
   public mounted() {
     this.items = [];
-    for (let i = 1; i <= 22; ++i) {
+    for (let i = 1; i <= 39; ++i) {
       this.items.push({
         id: i,
-        name: `Tag ${i}`
+        name: `Category ${i}`
       });
     }
   }
