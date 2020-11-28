@@ -11,12 +11,20 @@ services:
     ports:
       - "8080:8080"
 
+  backend-coupons:
+    build: ./coupon-backend
+    ports:
+      - "8081:8000"
+
+
   db:
     image: postgres
     volumes:
       - pgdata:/var/lib/postgresql/data
     environment:
       - POSTGRES_PASSWORD=postgres
+    ports:
+      - "5433:5432"
 
 volumes:
   pgdata:

@@ -21,7 +21,8 @@ const routes: Array<RouteConfig> = [
   {
     path: "/",
     name: "Home",
-    component: Dashboard
+    component: Dashboard,
+    beforeEnter: loginRequiredGuard
   },
   {
     path: "/tags",
