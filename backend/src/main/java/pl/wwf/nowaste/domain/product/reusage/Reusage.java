@@ -67,4 +67,8 @@ public class Reusage {
             inverseJoinColumns = @JoinColumn(name = "tag_id"))
     private Set<Tag> tags;
 
+    public Integer rank() {
+        return upVotes - downVotes;
+    }
+
 }

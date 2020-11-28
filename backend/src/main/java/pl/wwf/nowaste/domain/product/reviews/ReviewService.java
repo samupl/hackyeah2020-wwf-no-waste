@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.wwf.nowaste.domain.product.Product;
 import pl.wwf.nowaste.domain.product.ProductService;
+import pl.wwf.nowaste.domain.product.ratings.Rating;
 import pl.wwf.nowaste.domain.product.reviews.web.ReviewCreateRequest;
 
 import javax.persistence.EntityNotFoundException;
@@ -54,10 +55,16 @@ public class ReviewService {
                 .date(LocalDateTime.now())
                 .author(getAuthor(principal))
                 .product(product)
-                .boxRating(request.getBoxRating())
-                .boxReusabilityRating(request.getBoxReusabilityRating())
-                .productReusabilityRating(request.getProductReusabilityRating())
                 .comment(request.getComment())
+                .rating(Rating.builder()
+                        .boxReusable(request.getBoxReusable())
+                        .boxRecycable(request.getBoxRecycable())
+                        .boxFromRecycling(request.getBoxFromRecycling())
+                        .productReusable(request.getProductReusable())
+                        .productRecycable(request.getProductRecycable())
+                        .productFromRecycling(request.getProductFromRecycling())
+                        .repairable(request.getRepairable())
+                        .build())
                 .build());
     }
 
@@ -69,20 +76,23 @@ public class ReviewService {
     }
 
     private void validateRequest(ReviewCreateRequest request) {
-        if (request == null) {
-            throw new IllegalArgumentException("Request not present.");
-        }
-        if (request.getBoxRating() == null || !validateRatingNumber(request.getBoxRating())) {
-            throw new IllegalArgumentException("Wrong Box Rating Value");
-        }
-        if (request.getBoxReusabilityRating() == null || !validateRatingNumber(request.getBoxReusabilityRating())) {
-            throw new IllegalArgumentException("Wrong Box Reusability Rating Value");
-        }
-        if (request.getProductReusabilityRating() != null) {
-            if (!validateRatingNumber(request.getProductReusabilityRating())) {
-                throw new IllegalArgumentException("Wrong Product reusability Rating Value");
-            }
-        }
+        checkNotNull(request, "Request not present.");
+        checkNotNull(request.getBoxReusable(), "Request boxReusable not present.");
+        checkNotNull(request.getBoxRecycable(), "Request boxRecycable not present.");
+        checkNotNull(request.getBoxFromRecycling(), "Request boxFromRecycling not present.");
+        checkNotNull(request.getProductReusable(), "Request productReusable not present.");
+        checkNotNull(request.getProductRecycable(), "Request productRecycable not present.");
+        checkNotNull(request.getProductFromRecycling(), "Request productFromRecycling not present.");
+        checkNotNull(request.getRepairable(), "Request repairable not present.");
+
+        check(validateRatingNumber(request.getBoxReusable()), "Request boxReusable illegal value.");
+        check(validateRatingNumber(request.getBoxRecycable()), "Request boxRecycable illegal value.");
+        check(validateRatingNumber(request.getBoxFromRecycling()), "Request boxFromRecycling illegal value.");
+        check(validateRatingNumber(request.getProductReusable()), "Request productReusable illegal value.");
+        check(validateRatingNumber(request.getProductRecycable()), "Request productRecycable illegal value.");
+        check(validateRatingNumber(request.getProductFromRecycling()), "Request productFromRecycling illegal value.");
+        check(validateRatingNumber(request.getRepairable()), "Request repairable illegal value.");
+
     }
 
     private boolean validateRatingNumber(Integer rating) {

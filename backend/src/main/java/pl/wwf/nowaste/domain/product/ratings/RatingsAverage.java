@@ -9,8 +9,12 @@ import lombok.Data;
 @AllArgsConstructor
 public class RatingsAverage {
 
-    private Double boxRating;
-    private Double boxReusabilityRating;
-    private Double productReusabilityRating;
+    private Double boxReusable;
+    private Double boxRecycable;
+    private Double boxFromRecycling;
+    private Double productReusable;
+    private Double productRecycable;
+    private Double productFromRecycling;
+    private Double repairable;
 
 }

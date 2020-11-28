@@ -23,6 +23,7 @@ public class ReusageDetails {
     private String description;
     private Integer upVotes;
     private Integer downVotes;
+    private Integer rank;
     private Set<String> photosUrl;
     private Set<Category> categories;
     private Set<Tag> tags;

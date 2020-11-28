@@ -6,7 +6,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import pl.wwf.nowaste.domain.product.Product;
+import pl.wwf.nowaste.domain.product.ratings.Rating;
 
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -29,11 +31,8 @@ public class Review {
 
     private LocalDateTime date;
 
-    private Integer boxRating;
-
-    private Integer boxReusabilityRating;
-
-    private Integer productReusabilityRating;
+    @Embedded
+    private Rating rating;
 
     private String comment;
 
