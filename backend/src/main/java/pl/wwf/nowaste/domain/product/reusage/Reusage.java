@@ -9,6 +9,8 @@ import pl.wwf.nowaste.domain.category.Category;
 import pl.wwf.nowaste.domain.product.Product;
 import pl.wwf.nowaste.domain.tag.Tag;
 
+import javax.persistence.CollectionTable;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -44,6 +46,10 @@ public class Reusage {
     private Integer upVotes;
 
     private Integer downVotes;
+
+    @ElementCollection
+    @CollectionTable(name = "join_reusage_photos", joinColumns = @JoinColumn(name = "reusage_id"))
+    private Set<String> photos;
 
     @JsonIgnore
     @ManyToOne
