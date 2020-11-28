@@ -1,16 +1,14 @@
 <template>
-  <v-app-bar app color="primary" dark>
-    <div class="d-flex align-center"></div>
+  <v-app-bar app color="black" dark flat>
+    <div class="d-flex align-center">
+      Product Panda administrative interface
+    </div>
 
     <v-spacer></v-spacer>
 
-    <v-btn
-      href="https://github.com/vuetifyjs/vuetify/releases/latest"
-      target="_blank"
-      text
-    >
-      <span class="mr-2">Latest Release</span>
-      <v-icon>mdi-open-in-new</v-icon>
+    <v-btn target="_blank" text @click="logout">
+      <v-icon>mdi-power</v-icon>
+      <span class="mr-2">Sign out</span>
     </v-btn>
   </v-app-bar>
 </template>
@@ -19,5 +17,10 @@
 import { Component, Vue } from "vue-property-decorator";
 
 @Component
-export default class Navbar extends Vue {}
+export default class Navbar extends Vue {
+  public logout() {
+    this.$store.commit("setToken", "");
+    this.$router.push("/login");
+  }
+}
 </script>

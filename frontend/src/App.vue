@@ -1,7 +1,7 @@
 <template>
   <v-app>
-    <Sidebar></Sidebar>
-    <Navbar></Navbar>
+    <Sidebar v-if="$store.getters.isLoggedIn"></Sidebar>
+    <Navbar v-if="$store.getters.isLoggedIn"></Navbar>
 
     <v-main>
       <v-container fluid>

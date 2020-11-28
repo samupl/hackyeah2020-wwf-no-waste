@@ -6,6 +6,7 @@ import { VTextField } from "vuetify/lib";
 
 @Component
 export default class CategoriesCRUD extends CRUDView<Category> {
+  public itemNamePlural = "Categories";
   public itemName = "category";
   public baseUrl = "api/category";
   public headers = [
