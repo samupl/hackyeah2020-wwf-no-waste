@@ -8,10 +8,28 @@
 
     <template v-slot:item.tags="{ item }">
       <div>
-        <v-chip v-for="tag of item.tags" :key="tag.id" small>
+        <v-chip v-for="tag of item.tags" :key="tag.id" small class="ma-2">
           {{ tag.name }}
         </v-chip>
       </div>
+    </template>
+
+    <template v-slot:item.actions="{ item }">
+      <v-btn icon small :to="`/products/${item.id}`">
+        <v-icon>mdi-magnify</v-icon>
+      </v-btn>
+      <v-btn icon small @click="editItem(item)" v-if="editEnabled">
+        <v-icon>mdi-pencil</v-icon>
+      </v-btn>
+      <v-btn
+        icon
+        small
+        @click="deleteItem(item)"
+        v-if="deleteEnabled"
+        class="error--text"
+      >
+        <v-icon>mdi-delete</v-icon>
+      </v-btn>
     </template>
     <!-- /The only change from the base template -->
 
@@ -94,26 +112,15 @@
           </v-card>
         </v-dialog>
       </v-toolbar>
-    </template>
 
-    <template v-slot:item.actions="{ item }">
-      <v-btn icon small @click="editItem(item)" v-if="editEnabled">
-        <v-icon>mdi-pencil</v-icon>
-      </v-btn>
-      <v-btn
-        icon
-        small
-        @click="deleteItem(item)"
-        v-if="deleteEnabled"
-        class="error--text"
+      <v-dialog
+        v-model="detailsModal"
+        @click:outside="hideDetails()"
+        max-width="900px"
       >
-        <v-icon>mdi-delete</v-icon>
-      </v-btn>
+        <ProductDetails :product-id="detailId"></ProductDetails>
+      </v-dialog>
     </template>
-
-    <template v-for="(_, slot) of $scopedSlots" v-slot:[slot]="scope"
-      ><slot :name="slot" v-bind="scope"
-    /></template>
   </v-data-table>
 </template>
 
@@ -121,16 +128,13 @@
 import CRUDView from "@/components/base/CRUDView.vue";
 import CategoryInput from "@/components/forms/CategoryInput.vue";
 import TagsInput from "@/components/forms/TagsInput.vue";
-import { Component } from "vue-property-decorator";
+import ProductDetails from "@/components/products/ProductDetails.vue";
+import { Product } from "@/interfaces/product";
+import { Component, Watch } from "vue-property-decorator";
 import { VTextField } from "vuetify/lib";
 
-interface Product {
-  id?: number;
-  name: string;
-}
-
 @Component({
-  components: { CRUDView }
+  components: { ProductDetails, CRUDView }
 })
 export default class ProductsCRUD extends CRUDView<Product> {
   public itemName = "products";
@@ -183,7 +187,35 @@ export default class ProductsCRUD extends CRUDView<Product> {
     name: "",
     barCode: "",
     categoryId: 0,
-    tags: []
+    category: { name: "" },
+    tags: [],
+    averageRatings: {
+      boxRating: 0,
+      boxReusabilityRating: 0,
+      productReusabilityRating: 0
+    }
   };
+  public detailsModal = false;
+  public detailId = 0;
+
+  public showDetails(id: number) {
+    this.detailId = id;
+    this.detailsModal = true;
+  }
+
+  public hideDetails() {
+    if (this.$route.path !== "/products") this.$router.push("/products");
+  }
+
+  @Watch("$route")
+  public onRouteChange() {
+    const detailId = this.$route.params.id;
+    if (detailId !== undefined) this.showDetails(parseInt(detailId, 10));
+    else this.hideDetails();
+  }
+
+  public mounted() {
+    this.onRouteChange();
+  }
 }
 </script>

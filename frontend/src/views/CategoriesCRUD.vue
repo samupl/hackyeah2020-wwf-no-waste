@@ -1,12 +1,8 @@
 <script lang="ts">
 import CRUDView from "@/components/base/CRUDView.vue";
+import { Category } from "@/interfaces/category";
 import { Component } from "vue-property-decorator";
 import { VTextField } from "vuetify/lib";
-
-interface Category {
-  id?: number;
-  name: string;
-}
 
 @Component
 export default class CategoriesCRUD extends CRUDView<Category> {
@@ -32,8 +28,5 @@ export default class CategoriesCRUD extends CRUDView<Category> {
   public defaultItem = {
     name: ""
   };
-
-
-
 }
 </script>

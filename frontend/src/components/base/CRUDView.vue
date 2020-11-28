@@ -95,21 +95,18 @@
         <v-icon>mdi-delete</v-icon>
       </v-btn>
     </template>
-
-    <template v-for="(_, slot) of $scopedSlots" v-slot:[slot]="scope"><slot :name="slot" v-bind="scope"/></template>
-
   </v-data-table>
 </template>
 
 <script lang="ts">
-import http from "@/api/http";
+import { APIClient } from "@/api/cllient";
 import { AxiosError } from "axios";
 import { Component, Vue } from "vue-property-decorator";
 import { DataTableHeader } from "vuetify";
 
 interface FormField {
   attribute: string;
-  component: any;
+  component: unknown;
   label: string;
 }
 
@@ -186,7 +183,7 @@ export default class CRUDView<T extends ItemType> extends Vue {
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   public async loadItems() {
     this.loading = true;
-    const response = await http.get(`${this.baseUrl}/all`);
+    const response = await APIClient.get(`${this.baseUrl}/all`);
     try {
       this.items = response.data;
     } finally {
@@ -201,7 +198,7 @@ export default class CRUDView<T extends ItemType> extends Vue {
       ? `${this.baseUrl}/${this.editedItem?.id}`
       : this.baseUrl;
     try {
-      await http.put(url, this.editedItem);
+      await APIClient.put(url, this.editedItem);
       this.close();
       await this.loadItems();
     } catch (err) {
@@ -215,7 +212,7 @@ export default class CRUDView<T extends ItemType> extends Vue {
     this.error = "";
     this.deleteLoading = true;
     try {
-      await http.delete(`${this.baseUrl}/${this.editedItem?.id}`);
+      await APIClient.delete(`${this.baseUrl}/${this.editedItem?.id}`);
       this.editedItem = Object.assign({}, this.defaultItem);
     } finally {
       this.deleteLoading = false;
