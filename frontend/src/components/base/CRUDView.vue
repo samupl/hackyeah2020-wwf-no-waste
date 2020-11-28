@@ -137,7 +137,7 @@ export default class CRUDView<T extends ItemType> extends Vue {
   public baseUrl = "";
   public error = "";
 
-  public editEnabled = true;
+  public editEnabled = false;
   public deleteEnabled = true;
 
   public form: FormField[] = [];

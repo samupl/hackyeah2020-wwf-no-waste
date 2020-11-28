@@ -3,7 +3,12 @@
     <v-row align="center" justify="center">
       <v-col align="center">
         <v-card :loading="loading" max-width="500px">
-          <v-img :src="require('@/assets/logo.svg')" max-width="150px"></v-img>
+          <v-card-title class="justify-center">
+            <v-img
+              :src="require('@/assets/logo.svg')"
+              max-width="250px"
+            ></v-img>
+          </v-card-title>
           <v-card-title class="justify-center">Product Panda</v-card-title>
           <v-card-subtitle class="justify-center">Sign in</v-card-subtitle>
 
