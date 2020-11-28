@@ -129,7 +129,7 @@ export default class CRUDView<T extends ItemType> extends Vue {
   public editedItem?: T = {} as T;
   public defaultItem?: T = undefined;
   public itemName = "Item (override)";
-  public itemNamePlural = "Items (override)"
+  public itemNamePlural = "Items (override)";
   public editMode = false;
   public loading = false;
   public deleteLoading = false;

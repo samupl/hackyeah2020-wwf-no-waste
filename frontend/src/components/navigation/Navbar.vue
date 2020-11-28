@@ -1,6 +1,8 @@
 <template>
   <v-app-bar app color="black" dark flat>
-    <div class="d-flex align-center">Product Panda administrative interface</div>
+    <div class="d-flex align-center">
+      Product Panda administrative interface
+    </div>
 
     <v-spacer></v-spacer>
 

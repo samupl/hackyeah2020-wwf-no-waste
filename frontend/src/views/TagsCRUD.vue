@@ -6,7 +6,7 @@ import { VTextField } from "vuetify/lib";
 
 @Component
 export default class TagsCRUD extends CRUDView<Tag> {
-  public itemNamePlural = "Tags"
+  public itemNamePlural = "Tags";
   public itemName = "tag";
   public baseUrl = "api/tag";
   public headers = [

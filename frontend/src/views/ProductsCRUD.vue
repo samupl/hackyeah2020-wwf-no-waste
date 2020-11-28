@@ -138,7 +138,7 @@ import { VTextField } from "vuetify/lib";
   components: { ProductDetails, CRUDView }
 })
 export default class ProductsCRUD extends CRUDView<Product> {
-  public itemNamePlural = "Products"
+  public itemNamePlural = "Products";
   public itemName = "product";
   public baseUrl = "api/product";
   public headers = [
