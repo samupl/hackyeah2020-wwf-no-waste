@@ -1,17 +1,16 @@
 import CategoriesCRUD from "@/views/CategoriesCRUD.vue";
-import Login from '@/views/Login.vue';
+import Login from "@/views/Login.vue";
 import ProductsCRUD from "@/views/ProductsCRUD.vue";
 import TagsCRUD from "@/views/TagsCRUD.vue";
 import Vue from "vue";
 import VueRouter, { Route, RouteConfig } from "vue-router";
 import store from "@/store";
 
-
 Vue.use(VueRouter);
 
 function loginRequiredGuard(to: Route, from: Route, next: Function) {
   if (store.state.authToken == "") {
-    next("/login")
+    next("/login");
   }
   return next();
 }
@@ -26,7 +25,7 @@ const routes: Array<RouteConfig> = [
     path: "/tags",
     name: "Tags",
     component: TagsCRUD,
-    beforeEnter: loginRequiredGuard,
+    beforeEnter: loginRequiredGuard
   },
   {
     path: "/categories",
@@ -37,13 +36,13 @@ const routes: Array<RouteConfig> = [
     path: "/products",
     name: "Products",
     component: ProductsCRUD,
-    beforeEnter: loginRequiredGuard,
+    beforeEnter: loginRequiredGuard
   },
   {
     path: "/products/:id",
     name: "Products-details",
     component: ProductsCRUD,
-    beforeEnter: loginRequiredGuard,
+    beforeEnter: loginRequiredGuard
   },
   {
     path: "/login",

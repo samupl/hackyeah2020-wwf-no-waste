@@ -35,6 +35,7 @@
 
     <template v-slot:top>
       <v-toolbar flat>
+        <v-toolbar-title>{{ itemNamePlural }}</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-dialog v-model="dialog" max-width="500px" @click:outside="cancel()">
           <template v-slot:activator="{ on, attrs }">
@@ -137,7 +138,8 @@ import { VTextField } from "vuetify/lib";
   components: { ProductDetails, CRUDView }
 })
 export default class ProductsCRUD extends CRUDView<Product> {
-  public itemName = "products";
+  public itemNamePlural = "Products"
+  public itemName = "product";
   public baseUrl = "api/product";
   public headers = [
     {

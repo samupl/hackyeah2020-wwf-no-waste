@@ -1,14 +1,10 @@
 <template>
-  <v-app-bar app color="primary" dark>
-    <div class="d-flex align-center"></div>
+  <v-app-bar app color="black" dark flat>
+    <div class="d-flex align-center">Product Panda administrative interface</div>
 
     <v-spacer></v-spacer>
 
-    <v-btn
-      target="_blank"
-      text
-      @click="logout"
-    >
+    <v-btn target="_blank" text @click="logout">
       <v-icon>mdi-power</v-icon>
       <span class="mr-2">Sign out</span>
     </v-btn>

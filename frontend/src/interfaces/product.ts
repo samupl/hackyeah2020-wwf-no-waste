@@ -1,5 +1,5 @@
-import { Category } from '@/interfaces/category';
-import { Tag } from '@/interfaces/tag';
+import { Category } from "@/interfaces/category";
+import { Tag } from "@/interfaces/tag";
 
 export interface ProductAverageRatings {
   boxRating: number;

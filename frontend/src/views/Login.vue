@@ -44,6 +44,7 @@
 </template>
 
 <script lang="ts">
+import { AxiosError, AxiosResponse } from "axios";
 import { Component, Vue } from "vue-property-decorator";
 
 const successResponse = {
@@ -89,7 +90,7 @@ export default class Login extends Vue {
 
     try {
       const response = await promise;
-      this.$store.commit("setToken", response.data.token);
+      this.$store.commit("setToken", (response as AxiosResponse).data.token);
       await this.$router.push("/products");
     } catch (err) {
       this.handleError(err);
@@ -98,8 +99,8 @@ export default class Login extends Vue {
     }
   }
 
-  public handleError(err) {
-    this.error = err.response.data.reason;
+  public handleError(err: AxiosError) {
+    this.error = err.response?.data.reason;
   }
 
   public get hasError() {
