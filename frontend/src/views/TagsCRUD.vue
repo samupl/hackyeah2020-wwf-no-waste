@@ -1,12 +1,8 @@
 <script lang="ts">
 import CRUDView from "@/components/base/CRUDView.vue";
+import { Tag } from "@/interfaces/tag";
 import { Component } from "vue-property-decorator";
 import { VTextField } from "vuetify/lib";
-
-interface Tag {
-  id?: number;
-  name: string;
-}
 
 @Component
 export default class TagsCRUD extends CRUDView<Tag> {

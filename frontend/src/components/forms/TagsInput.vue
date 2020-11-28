@@ -10,7 +10,8 @@
 </template>
 
 <script lang="ts">
-import http from "@/api/http";
+import { APIClient } from "@/api/cllient";
+import { Tag } from "@/interfaces/tag";
 import { Component, Vue, Prop } from "vue-property-decorator";
 
 @Component
@@ -19,8 +20,8 @@ export default class TagsInput extends Vue {
   public items = [];
 
   public async mounted() {
-    const response = await http.get("api/tag/all");
-    this.items = response.data.map((item: any) => {
+    const response = await APIClient.get("api/tag/all");
+    this.items = response.data.map((item: Tag) => {
       return { value: item.id, text: item.name };
     });
   }

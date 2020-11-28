@@ -44,7 +44,7 @@ export default class Sidebar extends Vue {
       title: "Re-use examples",
       icon: "mdi-recycle",
       to: "/reuse"
-    },
+    }
   ];
 }
 </script>

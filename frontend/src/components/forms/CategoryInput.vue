@@ -1,9 +1,15 @@
 <template>
-  <v-select :items="items" :value="value" @input="update" label="Category"></v-select>
+  <v-select
+    :items="items"
+    :value="value"
+    @input="update"
+    label="Category"
+  ></v-select>
 </template>
 
 <script lang="ts">
-import http from "@/api/http";
+import { APIClient } from "@/api/cllient";
+import { Category } from "@/interfaces/category";
 import { Component, Vue, Prop } from "vue-property-decorator";
 
 @Component
@@ -12,8 +18,8 @@ export default class CategoryInput extends Vue {
   public items = [];
 
   public async mounted() {
-    const response = await http.get("api/category/all");
-    this.items = response.data.map((item: any) => {
+    const response = await APIClient.get("api/category/all");
+    this.items = response.data.map((item: Category) => {
       return { value: item.id, text: item.name };
     });
   }
