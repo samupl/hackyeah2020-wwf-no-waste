@@ -1,4 +1,5 @@
 import CategoriesCRUD from "@/views/CategoriesCRUD.vue";
+import ProductsCRUD from '@/views/ProductsCRUD.vue';
 import TagsCRUD from "@/views/TagsCRUD.vue";
 import Vue from "vue";
 import VueRouter, { RouteConfig } from "vue-router";
@@ -21,6 +22,11 @@ const routes: Array<RouteConfig> = [
     path: "/categories",
     name: "Categories",
     component: CategoriesCRUD
+  },
+  {
+    path: "/products",
+    name: "Products",
+    component: ProductsCRUD
   },
 ];
 
