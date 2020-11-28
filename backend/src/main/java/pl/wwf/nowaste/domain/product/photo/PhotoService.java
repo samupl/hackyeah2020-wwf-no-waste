@@ -1,6 +1,7 @@
 package pl.wwf.nowaste.domain.product.photo;
 
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -79,5 +81,19 @@ public class PhotoService {
                 .filter(Objects::nonNull)
                 .map(this::uploadFile)
                 .collect(toSet());
+    }
+
+    public Optional<String> uploadFile(byte[] fileContent, String extension) {
+        if (fileContent == null || fileContent.length == 0) {
+            return null;
+        }
+        final String fileId = format("%s.%s", UUID.randomUUID().toString(), extension);
+        final File fileToSave = new File(format("%s/%s", filePath, fileId));
+        try {
+            FileUtils.writeByteArrayToFile(fileToSave, fileContent);
+        } catch (IOException e) {
+            return Optional.empty();
+        }
+        return Optional.ofNullable(fileId);
     }
 }
