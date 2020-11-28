@@ -13,6 +13,7 @@ import pl.wwf.nowaste.domain.category.Category;
 import pl.wwf.nowaste.domain.category.CategoryService;
 import pl.wwf.nowaste.domain.category.web.CategoryCreateRequest;
 import pl.wwf.nowaste.domain.product.web.ProductCreateRequest;
+import pl.wwf.nowaste.domain.product.web.ProductDetailsMainView;
 
 import java.util.List;
 
@@ -33,6 +34,11 @@ public class ProductController {
     @GetMapping("/all")
     public List<Product> findAll() {
         return service.findAll();
+    }
+
+    @GetMapping("/find-by-barcode/{barcode}")
+    public ProductDetailsMainView findByBarcode(@PathVariable String barcode) {
+        return service.findByBarcode(barcode);
     }
 
     @PutMapping

@@ -3,7 +3,10 @@ package pl.wwf.nowaste.domain.product;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.wwf.nowaste.domain.category.CategoryService;
+import pl.wwf.nowaste.domain.product.photo.PhotoService;
+import pl.wwf.nowaste.domain.product.ratings.RatingService;
 import pl.wwf.nowaste.domain.product.web.ProductCreateRequest;
+import pl.wwf.nowaste.domain.product.web.ProductDetailsMainView;
 import pl.wwf.nowaste.domain.tag.TagService;
 
 import javax.persistence.EntityNotFoundException;
@@ -16,6 +19,8 @@ public class ProductService {
     private final ProductRepository repository;
     private final CategoryService categoryService;
     private final TagService tagService;
+    private final RatingService ratingService;
+    private final PhotoService photoService;
 
     public Product findById(Long id) {
         return repository.findById(id)
@@ -50,4 +55,21 @@ public class ProductService {
         repository.deleteById(id);
     }
 
+    public ProductDetailsMainView findByBarcode(String barcode) {
+        if (barcode == null) {
+            throw new IllegalArgumentException("Empty barcode.");
+        }
+
+        final Product product = repository.findOneByBarCode(barcode);
+
+        return ProductDetailsMainView.builder()
+                .id(product.getId())
+                .barcode(product.getBarCode())
+                .name(product.getName())
+                .photoUrl(photoService.createPhotoUrl(product.getId()))
+                .averageRatings(ratingService.computeAverageRatings(product.getId()))
+                .category(product.getCategory())
+                .tags(product.getTags())
+                .build();
+    }
 }
