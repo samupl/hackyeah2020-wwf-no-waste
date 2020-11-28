@@ -1,5 +1,5 @@
-import CategoriesCRUD from '@/views/CategoriesCRUD.vue';
-import TagsCRUD from '@/views/TagsCRUD.vue';
+import CategoriesCRUD from "@/views/CategoriesCRUD.vue";
+import TagsCRUD from "@/views/TagsCRUD.vue";
 import Vue from "vue";
 import VueRouter, { RouteConfig } from "vue-router";
 import Home from "../views/Home.vue";

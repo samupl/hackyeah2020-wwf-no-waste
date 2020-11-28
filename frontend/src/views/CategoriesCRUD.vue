@@ -11,6 +11,7 @@ interface Category {
 @Component
 export default class CategoriesCRUD extends CRUDView<Category> {
   public itemName = "category";
+  public baseUrl = "api/category";
   public headers = [
     {
       text: "Name",
@@ -32,14 +33,7 @@ export default class CategoriesCRUD extends CRUDView<Category> {
     name: ""
   };
 
-  public mounted() {
-    this.items = [];
-    for (let i = 1; i <= 39; ++i) {
-      this.items.push({
-        id: i,
-        name: `Category ${i}`
-      });
-    }
-  }
+
+
 }
 </script>

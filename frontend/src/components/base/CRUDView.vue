@@ -1,5 +1,5 @@
 <template>
-  <v-data-table :headers="headers" :items="items">
+  <v-data-table :headers="headers" :items="items" :loading="loading">
     <template v-slot:top>
       <v-toolbar flat>
         <v-spacer></v-spacer>
@@ -9,11 +9,18 @@
               New {{ itemName }}
             </v-btn>
           </template>
-          <v-card>
+          <v-card :loading="submitLoading">
             <v-card-title>
               <span class="headline">{{ formTitle }}</span>
             </v-card-title>
             <v-card-text>
+              <v-alert
+                v-model="hasError"
+                type="error"
+                transition="slide-y-transition"
+              >
+                {{ error }}
+              </v-alert>
               <component
                 :is="field.component"
                 v-for="field of form"
@@ -24,17 +31,27 @@
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="grey darken-1" text @click="cancel">
+              <v-btn
+                color="grey darken-1"
+                text
+                @click="cancel"
+                :disabled="submitLoading"
+              >
                 Cancel
               </v-btn>
-              <v-btn color="blue darken-1" text @click="submit">
+              <v-btn
+                color="blue darken-1"
+                text
+                @click="submit"
+                :loading="submitLoading"
+              >
                 Save
               </v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>
         <v-dialog v-model="deleteDialog" max-width="500px">
-          <v-card>
+          <v-card :loading="deleteLoading">
             <v-card-title>Delete {{ itemName }}</v-card-title>
             <v-card-text>
               Are you sure you want to delete {{ itemName }}
@@ -42,10 +59,20 @@
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="grey darken-1" text @click="cancelDelete">
+              <v-btn
+                color="grey darken-1"
+                text
+                @click="cancelDelete"
+                :disabled="deleteLoading"
+              >
                 Cancel
               </v-btn>
-              <v-btn color="error darken-1" text @click="deleteItemConfirm">
+              <v-btn
+                color="error darken-1"
+                text
+                @click="deleteItemConfirm"
+                :loading="deleteLoading"
+              >
                 Delete
               </v-btn>
             </v-card-actions>
@@ -72,6 +99,8 @@
 </template>
 
 <script lang="ts">
+import http from "@/api/http";
+import { AxiosError } from "axios";
 import { Component, Vue } from "vue-property-decorator";
 import { DataTableHeader } from "vuetify";
 
@@ -81,8 +110,12 @@ interface FormField {
   label: string;
 }
 
+interface ItemType {
+  id?: number;
+}
+
 @Component
-export default class CRUDView<T> extends Vue {
+export default class CRUDView<T extends ItemType> extends Vue {
   public static actionHeader: DataTableHeader = {
     text: "Actions",
     value: "actions",
@@ -96,6 +129,11 @@ export default class CRUDView<T> extends Vue {
   public defaultItem?: T = undefined;
   public itemName = "Item (override)";
   public editMode = false;
+  public loading = false;
+  public deleteLoading = false;
+  public submitLoading = false;
+  public baseUrl = "";
+  public error = "";
 
   public editEnabled = true;
   public deleteEnabled = true;
@@ -122,10 +160,6 @@ export default class CRUDView<T> extends Vue {
     this.close();
   }
 
-  public submit() {
-    this.close();
-  }
-
   public editItem(item: T) {
     this.editMode = true;
     this.editedItem = item;
@@ -142,8 +176,57 @@ export default class CRUDView<T> extends Vue {
     this.deleteDialog = false;
   }
 
-  public deleteItemConfirm() {
-    console.log('Confirming.');
+  public mounted() {
+    this.loadItems();
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  public async loadItems() {
+    this.loading = true;
+    const response = await http.get(`${this.baseUrl}/all`);
+    try {
+      this.items = response.data;
+    } finally {
+      this.loading = false;
+    }
+  }
+
+  public async submit() {
+    this.error = "";
+    this.submitLoading = true;
+    const url = this.editMode
+      ? `${this.baseUrl}/${this.editedItem?.id}`
+      : this.baseUrl;
+    try {
+      await http.put(url, this.editedItem);
+      this.close();
+      await this.loadItems();
+    } catch (err) {
+      this.handleErrors(err);
+    } finally {
+      this.submitLoading = false;
+    }
+  }
+
+  public async deleteItemConfirm() {
+    this.error = "";
+    this.deleteLoading = true;
+    try {
+      await http.delete(`${this.baseUrl}/${this.editedItem?.id}`);
+      this.editedItem = Object.assign({}, this.defaultItem);
+    } finally {
+      this.deleteLoading = false;
+    }
+    this.deleteDialog = false;
+    await this.loadItems();
+  }
+
+  public handleErrors(err: AxiosError) {
+    this.error = err.response?.data.reason;
+  }
+
+  public get hasError() {
+    return this.error.length > 0;
   }
 }
 </script>

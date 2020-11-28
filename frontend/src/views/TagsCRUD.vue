@@ -11,6 +11,7 @@ interface Tag {
 @Component
 export default class TagsCRUD extends CRUDView<Tag> {
   public itemName = "tag";
+  public baseUrl = "api/tag";
   public headers = [
     {
       text: "Name",
@@ -31,15 +32,5 @@ export default class TagsCRUD extends CRUDView<Tag> {
   public defaultItem = {
     name: ""
   };
-
-  public mounted() {
-    this.items = [];
-    for (let i = 1; i <= 22; ++i) {
-      this.items.push({
-        id: i,
-        name: `Tag ${i}`
-      });
-    }
-  }
 }
 </script>
