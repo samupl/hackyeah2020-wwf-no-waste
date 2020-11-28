@@ -1,6 +1,7 @@
 package pl.wwf.nowaste.domain.product.reviews;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -22,16 +23,30 @@ public class ReviewController {
 
     private final ReviewService service;
 
+    @GetMapping("/{id}")
+    public Review findById(@PathVariable Long id) {
+        return service.findById(id);
+    }
+
+    @GetMapping("/all")
+    public List<Review> findAll() {
+        return service.findAll();
+    }
+
+    @GetMapping("/find-by-product/{id}")
+    public List<Review> findByProductId(@PathVariable Long id) {
+        return service.findByProductId(id);
+    }
+
     @PutMapping
     @ResponseStatus(CREATED)
     public Review create(@RequestBody ReviewCreateRequest request, Principal principal) {
         return service.create(request, principal);
     }
 
-    @GetMapping("/find-by-project/{id}")
-    @ResponseStatus(CREATED)
-    public List<Review> findByProjectId(@PathVariable Long id) {
-        return service.findByProjectId(id);
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id) {
+        service.delete(id);
     }
 
 }

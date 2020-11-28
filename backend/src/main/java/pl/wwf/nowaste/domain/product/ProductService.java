@@ -11,6 +11,7 @@ import pl.wwf.nowaste.domain.tag.TagService;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -29,6 +30,27 @@ public class ProductService {
 
     public List<Product> findAll() {
         return repository.findAll();
+    }
+
+    public ProductDetailsMainView findDetailsById(Long id) {
+        Product product = repository.findById(id).orElseThrow(EntityNotFoundException::new);
+        return convertToDetailsMainView(product);
+    }
+
+    public ProductDetailsMainView findDetailsByBarcode(String barcode) {
+        if (barcode == null) {
+            throw new IllegalArgumentException("Empty barcode.");
+        }
+
+        final Optional<Product> product = repository.findByBarCode(barcode);
+
+        return product
+                .map(this::convertToDetailsMainView)
+                .orElseThrow(() -> new EntityNotFoundException("Product with this Bar Code doesn't exist."));
+    }
+
+    public boolean existById(Long id) {
+        return id != null && repository.existsById(id);
     }
 
     public Product create(ProductCreateRequest request) {
@@ -55,13 +77,7 @@ public class ProductService {
         repository.deleteById(id);
     }
 
-    public ProductDetailsMainView findByBarcode(String barcode) {
-        if (barcode == null) {
-            throw new IllegalArgumentException("Empty barcode.");
-        }
-
-        final Product product = repository.findOneByBarCode(barcode);
-
+    private ProductDetailsMainView convertToDetailsMainView(Product product) {
         return ProductDetailsMainView.builder()
                 .id(product.getId())
                 .barcode(product.getBarCode())

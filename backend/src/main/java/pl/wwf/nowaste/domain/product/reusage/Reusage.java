@@ -1,10 +1,12 @@
-package pl.wwf.nowaste.domain.product;
+package pl.wwf.nowaste.domain.product.reusage;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import pl.wwf.nowaste.domain.category.Category;
+import pl.wwf.nowaste.domain.product.Product;
 import pl.wwf.nowaste.domain.tag.Tag;
 
 import javax.persistence.Entity;
@@ -14,6 +16,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+
+import java.time.LocalDateTime;
 import java.util.Set;
 
 import static javax.persistence.GenerationType.IDENTITY;
@@ -23,23 +27,37 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Product {
+public class Reusage {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
-    private String barCode;
+    private LocalDateTime date;
 
-    private String name;
+    private String title;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "category_id")
-    private Category category;
+    private String author;
+
+    private String description;
+
+    private Integer upVotes;
+
+    private Integer downVotes;
+
+    @JsonIgnore
+    @ManyToOne
+    private Product product;
 
     @ManyToMany
-    @JoinTable(name = "join_product_tag",
-            joinColumns = @JoinColumn(name = "product_id"),
+    @JoinTable(name = "join_reusage_category",
+            joinColumns = @JoinColumn(name = "reusage_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id"))
+    private Set<Category> categories;
+
+    @ManyToMany
+    @JoinTable(name = "join_reusage_tag",
+            joinColumns = @JoinColumn(name = "reusage_id"),
             inverseJoinColumns = @JoinColumn(name = "tag_id"))
     private Set<Tag> tags;
 

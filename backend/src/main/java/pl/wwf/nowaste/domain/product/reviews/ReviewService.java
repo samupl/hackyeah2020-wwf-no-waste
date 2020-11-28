@@ -6,12 +6,16 @@ import pl.wwf.nowaste.domain.product.Product;
 import pl.wwf.nowaste.domain.product.ProductService;
 import pl.wwf.nowaste.domain.product.reviews.web.ReviewCreateRequest;
 
+import javax.persistence.EntityNotFoundException;
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.List;
 
 import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.toList;
+import static pl.wwf.nowaste.web.PrincipalUtils.getAuthor;
+import static pl.wwf.nowaste.web.ValidationUtils.check;
+import static pl.wwf.nowaste.web.ValidationUtils.checkNotNull;
 
 @Service
 @RequiredArgsConstructor
@@ -22,6 +26,24 @@ public class ReviewService {
 
     private final ReviewRepository repository;
     private final ProductService productService;
+
+    public Review findById(Long id) {
+        return repository.findById(id)
+                .orElseThrow(EntityNotFoundException::new);
+    }
+
+    public List<Review> findAll() {
+        return repository.findAll();
+    }
+
+    public List<Review> findByProductId(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException("Project ID must be present.");
+        }
+        return repository.findAllByProductId(id).stream()
+                .sorted(comparing(Review::getDate).reversed())
+                .collect(toList());
+    }
 
     public Review create(ReviewCreateRequest request, Principal principal) {
         validateRequest(request);
@@ -39,17 +61,11 @@ public class ReviewService {
                 .build());
     }
 
-    public List<Review> findByProjectId(Long id) {
-        if (id == null) {
-            throw new IllegalArgumentException("Project ID must be present.");
-        }
-        return repository.findAllByProjectId(id).stream()
-                .sorted(comparing(Review::getDate).reversed())
-                .collect(toList());
-    }
+    public void delete(Long id) {
+        checkNotNull(id, "Review ID to delete is empty.");
+        check(repository.existsById(id), "Review not present");
 
-    private String getAuthor(Principal principal) {
-        return "null";
+        repository.deleteById(id);
     }
 
     private void validateRequest(ReviewCreateRequest request) {

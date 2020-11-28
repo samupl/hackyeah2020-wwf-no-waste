@@ -26,19 +26,19 @@ public class ProductController {
 
     private final ProductService service;
 
-    @GetMapping("/{id}")
-    public Product findById(@PathVariable Long id) {
-        return service.findById(id);
-    }
-
     @GetMapping("/all")
     public List<Product> findAll() {
         return service.findAll();
     }
 
+    @GetMapping("/{id}")
+    public ProductDetailsMainView findDetailsById(@PathVariable Long id) {
+        return service.findDetailsById(id);
+    }
+
     @GetMapping("/find-by-barcode/{barcode}")
     public ProductDetailsMainView findByBarcode(@PathVariable String barcode) {
-        return service.findByBarcode(barcode);
+        return service.findDetailsByBarcode(barcode);
     }
 
     @PutMapping

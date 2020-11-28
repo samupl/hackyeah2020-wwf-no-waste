@@ -7,7 +7,6 @@ import pl.wwf.nowaste.domain.product.reviews.ReviewRepository;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 @Service
@@ -17,7 +16,7 @@ public class RatingService {
     private final ReviewRepository reviewRepository;
 
     public RatingsAverage computeAverageRatings(Long productId) {
-        final List<Review> reviews = reviewRepository.findAllByProjectId(productId);
+        final List<Review> reviews = reviewRepository.findAllByProductId(productId);
 
         return RatingsAverage.builder()
                 .boxRating(average(reviews.stream().map(Review::getBoxRating)))

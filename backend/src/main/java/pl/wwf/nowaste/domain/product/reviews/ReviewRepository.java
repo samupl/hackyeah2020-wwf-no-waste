@@ -8,5 +8,5 @@ import java.util.List;
 public interface ReviewRepository extends JpaRepository<Review, Long> {
 
     @Query("FROM Review r JOIN FETCH r.product p WHERE p.id = ?1")
-    List<Review> findAllByProjectId(Long id);
+    List<Review> findAllByProductId(Long id);
 }
