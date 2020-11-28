@@ -3,7 +3,6 @@ import ProductsCRUD from '@/views/ProductsCRUD.vue';
 import TagsCRUD from "@/views/TagsCRUD.vue";
 import Vue from "vue";
 import VueRouter, { RouteConfig } from "vue-router";
-import Home from "../views/Home.vue";
 
 Vue.use(VueRouter);
 
@@ -11,7 +10,7 @@ const routes: Array<RouteConfig> = [
   {
     path: "/",
     name: "Home",
-    component: Home
+    redirect: "/products"
   },
   {
     path: "/tags",
