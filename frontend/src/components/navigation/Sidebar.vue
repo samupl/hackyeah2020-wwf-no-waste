@@ -29,6 +29,11 @@ import { Component, Vue } from "vue-property-decorator";
 export default class Sidebar extends Vue {
   public items = [
     {
+      title: "Dashboard",
+      icon: "mdi-view-dashboard",
+      to: "/"
+    },
+    {
       title: "Products",
       icon: "mdi-basket",
       to: "/products"
