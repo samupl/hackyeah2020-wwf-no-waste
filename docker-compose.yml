@@ -5,3 +5,18 @@ services:
     build: ./frontend
     ports:
       - "8000:80"
+
+  backend:
+    build: ./backend
+    ports:
+      - "8080:8080"
+
+  db:
+    image: postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=postgres
+
+volumes:
+  pgdata:
