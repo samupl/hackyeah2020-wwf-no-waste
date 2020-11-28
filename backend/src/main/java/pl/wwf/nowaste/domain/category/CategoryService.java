@@ -6,6 +6,7 @@ import pl.wwf.nowaste.domain.category.web.CategoryCreateRequest;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -20,6 +21,10 @@ public class CategoryService {
 
     public List<Category> findAll() {
         return repository.findAll();
+    }
+
+    public Set<Category> findAllByIdsIn(Set<Long> ids) {
+        return repository.findAllByIdIn(ids);
     }
 
     public Category create(CategoryCreateRequest request) {

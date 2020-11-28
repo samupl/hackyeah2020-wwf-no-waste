@@ -37,6 +37,7 @@ public class WebExceptionHandler {
     @ResponseStatus(I_AM_A_TEAPOT)
     public ErrorResponse exceptionHandler(Exception e) {
         log.error("Exception: {}", e.getMessage());
+        e.printStackTrace();
         return new ErrorResponse(I_AM_A_TEAPOT, e.getMessage());
     }
 
