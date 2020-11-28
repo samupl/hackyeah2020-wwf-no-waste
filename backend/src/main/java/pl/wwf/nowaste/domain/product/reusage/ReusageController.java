@@ -4,11 +4,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import pl.wwf.nowaste.domain.product.reusage.web.ReusageCreateRequest;
+import pl.wwf.nowaste.domain.product.reusage.web.ReusageDetails;
 
 import java.security.Principal;
 
@@ -23,8 +25,8 @@ public class ReusageController {
 
     @PutMapping
     @ResponseStatus(CREATED)
-    public Reusage create(@RequestBody ReusageCreateRequest request, Principal principal) {
-        return service.create(request, principal);
+    public ReusageDetails create(@RequestPart("reusage") ReusageCreateRequest request, @RequestPart("photos") MultipartFile[] photos, Principal principal) {
+        return service.create(request, photos, principal);
     }
 
     @PostMapping("/{id}/up")
@@ -34,7 +36,7 @@ public class ReusageController {
 
     @PostMapping("/{id}/down")
     public void downVote(@PathVariable Long id) {
-        service.upVote(id);
+        service.downVote(id);
     }
 
 }

@@ -2,6 +2,7 @@ package pl.wwf.nowaste.domain.product;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import pl.wwf.nowaste.domain.category.CategoryService;
 import pl.wwf.nowaste.domain.product.photo.PhotoService;
 import pl.wwf.nowaste.domain.product.ratings.RatingService;
@@ -12,6 +13,9 @@ import pl.wwf.nowaste.domain.tag.TagService;
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
+
+import static pl.wwf.nowaste.web.ValidationUtils.check;
+import static pl.wwf.nowaste.web.ValidationUtils.checkNotNull;
 
 @Service
 @RequiredArgsConstructor
@@ -53,21 +57,22 @@ public class ProductService {
         return id != null && repository.existsById(id);
     }
 
-    public Product create(ProductCreateRequest request) {
-        if (request == null ||
-                request.getName() == null ||
-                request.getBarCode() == null ||
-                request.getCategoryId() == null ||
-                repository.existsByBarCode(request.getBarCode())) {
-            throw new IllegalArgumentException("Empty parameter or product with this barcode already exists.");
-        }
+    public ProductDetailsMainView create(ProductCreateRequest request, MultipartFile file) {
+        checkNotNull(request, "Empty product part request");
+        checkNotNull(request.getName(), "Empty product name");
+        checkNotNull(request.getBarCode(), "Empty product barCode");
+        checkNotNull(request.getCategoryId(), "Empty product category");
+        check(!repository.existsByBarCode(request.getBarCode()), "Product with this barcode already exists.");
 
-        return repository.save(Product.builder()
+        final String photoId = photoService.uploadFile(file);
+
+        return convertToDetailsMainView(repository.save(Product.builder()
                 .name(request.getName())
                 .barCode(request.getBarCode())
+                .photo(photoId)
                 .category(categoryService.findById(request.getCategoryId()))
                 .tags(tagService.findAllByIdIn(request.getTags()))
-                .build());
+                .build()));
     }
 
     public void delete(Long id) {
@@ -82,7 +87,7 @@ public class ProductService {
                 .id(product.getId())
                 .barcode(product.getBarCode())
                 .name(product.getName())
-                .photoUrl(photoService.createPhotoUrl(product.getId()))
+                .photoUrl(photoService.createPhotoUrl(product.getPhoto()))
                 .averageRatings(ratingService.computeAverageRatings(product.getId()))
                 .category(product.getCategory())
                 .tags(product.getTags())

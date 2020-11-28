@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.persistence.EntityNotFoundException;
 
+import java.io.IOException;
+
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.I_AM_A_TEAPOT;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
@@ -19,7 +21,7 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 @Slf4j
 public class WebExceptionHandler {
 
-    @ExceptionHandler(EntityNotFoundException.class)
+    @ExceptionHandler({EntityNotFoundException.class, IOException.class})
     @ResponseStatus(NOT_FOUND)
     public ErrorResponse entityNotFoundExceptionHandler(EntityNotFoundException e) {
         log.error("Exception: {}", e.getMessage());

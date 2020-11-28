@@ -1,5 +1,8 @@
 server:
   port: 8888
+  url:
+  file:
+    storage:
 
 logging:
   level:
@@ -7,4 +10,4 @@ logging:
       springframework:
         web:
           filter:
-            CommonsRequestLoggingFilter: info
+            CommonsRequestLoggingFilter: debug
