@@ -4,8 +4,19 @@ import Vuex from "vuex";
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  state: {},
-  mutations: {},
+  state: {
+    authToken: "",
+  },
+  mutations: {
+    setToken(state, token: string) {
+      state.authToken = token;
+    }
+  },
   actions: {},
-  modules: {}
+  modules: {},
+  getters: {
+    isLoggedIn(state) {
+      return state.authToken !== ""
+    }
+  }
 });
