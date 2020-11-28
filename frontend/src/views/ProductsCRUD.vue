@@ -130,7 +130,7 @@ import CRUDView from "@/components/base/CRUDView.vue";
 import CategoryInput from "@/components/forms/CategoryInput.vue";
 import TagsInput from "@/components/forms/TagsInput.vue";
 import ProductDetails from "@/components/products/ProductDetails.vue";
-import { Product } from "@/interfaces/product";
+import { defaultProduct, Product } from "@/interfaces/product";
 import { Component, Watch } from "vue-property-decorator";
 import { VTextField } from "vuetify/lib";
 
@@ -185,18 +185,7 @@ export default class ProductsCRUD extends CRUDView<Product> {
   ];
 
   public items: Product[] = [];
-  public defaultItem = {
-    name: "",
-    barCode: "",
-    categoryId: 0,
-    category: { name: "" },
-    tags: [],
-    averageRatings: {
-      boxRating: 0,
-      boxReusabilityRating: 0,
-      productReusabilityRating: 0
-    }
-  };
+  public defaultItem = defaultProduct;
   public detailsModal = false;
   public detailId = 0;
 

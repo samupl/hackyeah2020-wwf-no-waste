@@ -1,15 +1,20 @@
 <template>
   <v-card :loading="loading">
-    <v-img max-height="400" src="https://via.placeholder.com/468x480">
-      <template v-slot:placeholder>
-        <v-sheet>
-          <v-skeleton-loader
-            type="image"
-            min-height="100px"
-          ></v-skeleton-loader>
-        </v-sheet>
-      </template>
+    <v-img
+      max-height="400"
+      :src="product.photoUrl"
+      v-if="product.photoUrl !== null"
+    >
     </v-img>
+    <v-sheet
+      v-if="product.photoUrl === null"
+      class="grey lighten-3 text-center flex justify-center"
+      height="400px"
+    >
+      <v-icon class="grey--text lighten-5 missing-image-icon"
+        >mdi-image-off</v-icon
+      >
+    </v-sheet>
     <v-skeleton-loader
       type="list-item-two-line"
       v-if="loading"
@@ -29,18 +34,42 @@
       </div>
 
       <!-- Ratings -->
-      <v-row v-for="ratingConfig of ratingLabels" :key="ratingConfig.name">
-        <v-col md="3">
-          {{ ratingConfig.name }}
+      <v-row>
+        <v-col>
+          <h3>Product</h3>
+          <v-row
+            v-for="ratingConfig of ratingLabels.product"
+            :key="ratingConfig.name"
+          >
+            <v-col>
+              <h4 class="font-weight-regular">{{ ratingConfig.name }}:</h4>
+              <v-rating
+                v-model="product.averageRatings[ratingConfig.attribute]"
+                readonly
+                half-increments
+                color="yellow darken-3"
+                background-color="grey darken-1"
+              ></v-rating>
+            </v-col>
+          </v-row>
         </v-col>
         <v-col>
-          <v-rating
-            v-model="product.averageRatings[ratingConfig.attribute]"
-            readonly
-            half-increments
-            color="yellow darken-3"
-            background-color="grey darken-1"
-          ></v-rating>
+          <h3>Packaging</h3>
+          <v-row
+            v-for="ratingConfig of ratingLabels.packaging"
+            :key="ratingConfig.name"
+          >
+            <v-col>
+              <h4 class="font-weight-regular">{{ ratingConfig.name }}:</h4>
+              <v-rating
+                v-model="product.averageRatings[ratingConfig.attribute]"
+                readonly
+                half-increments
+                color="yellow darken-3"
+                background-color="grey darken-1"
+              ></v-rating>
+            </v-col>
+          </v-row>
         </v-col>
       </v-row>
 
@@ -51,64 +80,56 @@
       <v-card v-for="review of reviews" :key="review.id" class="ma-2">
         <v-card-text>
           <v-row>
-            <v-col md="3">
+            <v-col md="6">
               <h3 class="font-weight-regular">{{ review.author }}</h3>
               <h4 class="grey--text font-weight-regular">
                 {{ formatDate(review.date) }}
               </h4>
+              {{ review.comment }}
             </v-col>
             <v-col>
-              <v-row>
-                <v-col class="text-right">
-                  <h5 class="font-weight-regular">
-                    Packaging re-usability:
+              <h5 class="font-weight-regular">Product</h5>
+              <v-row
+                v-for="ratingConfig of ratingLabels.product"
+                :key="ratingConfig.name"
+              >
+                <v-col class="ma-0 pa-1 pl-3">
+                  <h5 class="font-weight-regular">{{ ratingConfig.name }}:</h5>
+                  <v-rating
+                    v-model="product.averageRatings[ratingConfig.attribute]"
+                    readonly
+                    half-increments
+                    color="yellow darken-3"
+                    background-color="grey darken-1"
+                    dense
+                    x-small
+                  ></v-rating>
+                </v-col>
+              </v-row>
+            </v-col>
+            <v-col>
+              <h5 class="font-weight-regular">Packaging</h5>
+              <v-row
+                v-for="ratingConfig of ratingLabels.packaging"
+                :key="ratingConfig.name"
+              >
+                <v-col class="ma-0 pa-1 pl-3">
+                  <h5 class="font-weight-regular ma-0">
+                    {{ ratingConfig.name }}:
                   </h5>
-                  <span
-                    v-if="review.productReusabilityRating === null"
-                    class="grey--text"
-                    >n/a</span
-                  >
                   <v-rating
-                    v-if="review.productReusabilityRating !== null"
-                    v-model="review.productReusabilityRating"
-                    small
-                    dense
+                    v-model="product.averageRatings[ratingConfig.attribute]"
                     readonly
                     half-increments
                     color="yellow darken-3"
                     background-color="grey darken-1"
-                  ></v-rating>
-                </v-col>
-                <v-col class="text-right">
-                  <h5 class="font-weight-regular">Packaging:</h5>
-                  <v-rating
-                    v-model="review.boxRating"
-                    small
                     dense
-                    readonly
-                    half-increments
-                    color="yellow darken-3"
-                    background-color="grey darken-1"
-                  ></v-rating>
-                </v-col>
-                <v-col class="text-right">
-                  <h5 class="font-weight-regular">Packaging re-usability:</h5>
-                  <v-rating
-                    v-model="review.boxReusabilityRating"
-                    small
-                    dense
-                    readonly
-                    half-increments
-                    color="yellow darken-3"
-                    background-color="grey darken-1"
+                    x-small
                   ></v-rating>
                 </v-col>
               </v-row>
             </v-col>
           </v-row>
-
-          <br />
-          {{ review.comment }}
         </v-card-text>
       </v-card>
     </v-card-text>
@@ -117,7 +138,7 @@
 
 <script lang="ts">
 import { APIClient } from "@/api/cllient";
-import { Product } from "@/interfaces/product";
+import { defaultProduct, Product } from "@/interfaces/product";
 import { Review } from "@/interfaces/review";
 import { Component, Vue, Prop, Watch } from "vue-property-decorator";
 
@@ -126,37 +147,28 @@ export default class ProductDetails extends Vue {
   @Prop({ type: Number, default: undefined }) productId?: number;
 
   public loading = true;
-  public product: Product = {
-    id: undefined,
-    name: "",
-    category: {
-      name: ""
-    },
-    tags: [],
-    averageRatings: {
-      boxRating: 0,
-      productReusabilityRating: 0,
-      boxReusabilityRating: 0
-    }
+  public product: Product = Object.assign({}, defaultProduct);
+  public defaultProduct: Product = defaultProduct;
+  public ratingLabels = {
+    packaging: [
+      {
+        name: "From from recycled materials",
+        attribute: "boxFromRecycling"
+      },
+      { name: "Recyclable/Biodegradable", attribute: "boxRecycable" },
+      { name: "Re-usability", attribute: "boxReusable" }
+    ],
+    product: [
+      {
+        name: "From from recycled materials",
+        attribute: "productFromRecycling"
+      },
+      { name: "Recyclable/Biodegradable", attribute: "productRecycable" },
+      { name: "Re-usability", attribute: "productReusable" },
+      { name: "Repairability", attribute: "repairable" }
+    ]
   };
-  public defaultProduct: Product = {
-    id: undefined,
-    name: "",
-    category: {
-      name: ""
-    },
-    tags: [],
-    averageRatings: {
-      boxRating: 0,
-      productReusabilityRating: 0,
-      boxReusabilityRating: 0
-    }
-  };
-  public ratingLabels = [
-    { name: "Packaging rating", attribute: "boxRating" },
-    { name: "Packaging re-usability", attribute: "boxReusabilityRating" },
-    { name: "Product re-usability", attribute: "productReusabilityRating" }
-  ];
+
   public reviews: Review[] = [];
 
   @Watch("productId")
@@ -190,3 +202,11 @@ export default class ProductDetails extends Vue {
   }
 }
 </script>
+
+<style lang="scss">
+.missing-image-icon {
+  padding-top: 100px;
+  font-size: 200px !important;
+  opacity: 0.25;
+}
+</style>

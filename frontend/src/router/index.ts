@@ -1,4 +1,6 @@
 import CategoriesCRUD from "@/views/CategoriesCRUD.vue";
+import Dashboard from "@/views/Dashboard.vue";
+import ErrorNotFound from "@/views/ErrorNotFound.vue";
 import Login from "@/views/Login.vue";
 import ProductsCRUD from "@/views/ProductsCRUD.vue";
 import TagsCRUD from "@/views/TagsCRUD.vue";
@@ -19,7 +21,7 @@ const routes: Array<RouteConfig> = [
   {
     path: "/",
     name: "Home",
-    redirect: "/products"
+    component: Dashboard
   },
   {
     path: "/tags",
@@ -48,6 +50,11 @@ const routes: Array<RouteConfig> = [
     path: "/login",
     name: "Login",
     component: Login
+  },
+  {
+    path: "*",
+    name: "NotFound",
+    component: ErrorNotFound
   }
 ];
 

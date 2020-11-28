@@ -8,6 +8,12 @@
         <router-view></router-view>
       </v-container>
     </v-main>
+
+    <v-footer app>
+      <a href="https://www.freepik.com/vectors/logo"
+        >Logo vector created by sentavio - www.freepik.com</a
+      >
+    </v-footer>
   </v-app>
 </template>
 
