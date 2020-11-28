@@ -3,6 +3,14 @@ server:
     context-path: /api/
   port: 8080
 
+logging:
+  level:
+    org:
+      springframework:
+        web:
+          filter:
+            CommonsRequestLoggingFilter: debug
+
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/postgres
