@@ -9,8 +9,8 @@ import lombok.Data;
 @AllArgsConstructor
 public class RatingsAverage {
 
-    private Integer boxRating;
-    private Integer boxReusabilityRating;
-    private Integer productReusabilityRating;
+    private Double boxRating;
+    private Double boxReusabilityRating;
+    private Double productReusabilityRating;
 
 }

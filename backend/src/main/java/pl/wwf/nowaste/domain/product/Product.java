@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import pl.wwf.nowaste.domain.category.Category;
+import pl.wwf.nowaste.domain.product.reviews.Review;
 import pl.wwf.nowaste.domain.tag.Tag;
 
 import javax.persistence.Entity;
@@ -39,8 +40,8 @@ public class Product {
 
     @ManyToMany
     @JoinTable(name = "join_product_tag",
-                joinColumns = @JoinColumn(name = "product_id"),
-                inverseJoinColumns = @JoinColumn(name = "tag_id"))
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id"))
     private Set<Tag> tags;
 
 }
