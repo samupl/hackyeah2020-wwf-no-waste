@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">no waste detector</string>
+    <string name="welcom_msg1">Hi there!</string>
+    <string name="welcome_msg2">We don\'t know yet</string>
+    <string name="welcome_msg3">What is your name?</string>
+    <string name="welcome_name">name</string>
+    <string name="welcome_connection_settings">connection settings:</string>
+
+    <string name="main_hello">Hi %s!</string>
+    <string name="main_title">Search for a product by barcode</string>
+    <string name="main_message1">Type the barcode</string>
+    <string name="main_message2">or use a scanner to obtain value</string>
+    <string name="main_barcode">barcode</string>
+
+    <string name="error_missing_camera_permission">No permission -> no scanner</string>
+    <string name="warning_no_author">Fill the name input</string>
+    <string name="coupons_title">Coupons</string>
+    <string name="coupons_no_coupons">no coupons yet</string>
+
+</resources>
