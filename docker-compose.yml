@@ -10,11 +10,15 @@ services:
     build: ./backend
     ports:
       - "8080:8080"
+    volumes:
+      - backend-img:/app/images
 
   backend-coupons:
     build: ./coupon-backend
     ports:
       - "8081:8000"
+    volumes:
+      - coupon-img:/app/public/uploads
 
 
   db:
@@ -28,3 +32,5 @@ services:
 
 volumes:
   pgdata:
+  backend-img:
+  coupon-img:
