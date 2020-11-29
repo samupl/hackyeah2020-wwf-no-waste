@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import pl.wwf.nowaste.domain.product.web.ProductCreateRequest;
 import pl.wwf.nowaste.domain.product.web.ProductDetailsMainView;
+import pl.wwf.nowaste.domain.product.web.ProductUpdateRequest;
 
 import java.util.List;
 
@@ -52,6 +54,11 @@ public class ProductController {
     @ResponseStatus(CREATED)
     public ProductDetailsMainView create(@RequestBody ProductCreateRequest request) {
         return service.create(request, null);
+    }
+
+    @PostMapping("/{id}")
+    public ProductDetailsMainView update(@PathVariable Long id, @RequestBody ProductUpdateRequest request) {
+        return service.update(id, request);
     }
 
     @DeleteMapping("/{id}")

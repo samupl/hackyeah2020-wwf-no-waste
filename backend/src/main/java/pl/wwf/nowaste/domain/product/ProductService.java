@@ -3,12 +3,14 @@ package pl.wwf.nowaste.domain.product;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import pl.wwf.nowaste.domain.category.Category;
 import pl.wwf.nowaste.domain.category.CategoryService;
 import pl.wwf.nowaste.domain.product.api.ProductDBApiClient;
 import pl.wwf.nowaste.domain.product.photo.PhotoService;
 import pl.wwf.nowaste.domain.product.ratings.RatingService;
 import pl.wwf.nowaste.domain.product.web.ProductCreateRequest;
 import pl.wwf.nowaste.domain.product.web.ProductDetailsMainView;
+import pl.wwf.nowaste.domain.product.web.ProductUpdateRequest;
 import pl.wwf.nowaste.domain.tag.TagService;
 
 import javax.persistence.EntityNotFoundException;
@@ -79,6 +81,23 @@ public class ProductService {
                 .category(categoryService.findById(request.getCategoryId()))
                 .tags(tagService.findAllByIdIn(request.getTags()))
                 .build()));
+    }
+
+    public ProductDetailsMainView update(Long id, ProductUpdateRequest request) {
+        checkNotNull(request, "Empty product part request");
+        checkNotNull(id, "Empty product id");
+        check(repository.existsById(id), "Product doesn't exists.");
+        checkNotNull(request.getName(), "Empty product name");
+        checkNotNull(request.getCategoryId(), "Empty product category");
+        final Category category = categoryService.findById(request.getCategoryId());
+        checkNotNull(category, "Category doesn't exists.");
+
+        final Product product = repository.getOne(id);
+        product.setName(request.getName());
+        product.setCategory(category);
+        product.setTags(tagService.findAllByIdIn(request.getTags()));
+
+        return convertToDetailsMainView(repository.save(product));
     }
 
     public void delete(Long id) {
