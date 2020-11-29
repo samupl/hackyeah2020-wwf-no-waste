@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginTop="16dp"
+    android:layout_marginStart="16dp">
+
+        <!-- PRODUCT -->
+        <TextView
+            android:id="@+id/product_label"
+            style="@style/RatingLabel"
+            android:textStyle="bold"
+            android:layout_marginBottom="4dp"
+            android:text="Product" />
+
+        <TextView
+            style="@style/RatingLabel"
+            android:text="From recycled materials" />
+
+        <RatingBar
+            android:id="@+id/rating_productFromRecycling"
+            style="@style/Rating"/>
+
+        <TextView
+            style="@style/RatingLabel"
+            android:text="Recyclable/Biodegradable" />
+
+        <RatingBar
+            android:id="@+id/rating_productRecycable"
+            style="@style/Rating"/>
+
+        <TextView
+            style="@style/RatingLabel"
+            android:text="Re-usability" />
+
+        <RatingBar
+            android:id="@+id/rating_productReusable"
+            style="@style/Rating"/>
+
+        <TextView
+            style="@style/RatingLabel"
+            android:text="Repairability" />
+
+        <RatingBar
+            android:id="@+id/rating_repairable"
+            style="@style/Rating"/>
+
+        <!-- PACKAGING -->
+        <TextView
+            android:id="@+id/packaging_label"
+            style="@style/RatingLabel"
+            android:textStyle="bold"
+            android:layout_marginBottom="4dp"
+            android:text="Packaging" />
+
+        <TextView
+            style="@style/RatingLabel"
+            android:text="From recycled materials" />
+
+        <RatingBar
+            android:id="@+id/rating_boxFromRecycling"
+            style="@style/Rating"/>
+
+        <TextView
+            style="@style/RatingLabel"
+            android:text="Recyclable/Biodegradable" />
+
+        <RatingBar
+            android:id="@+id/rating_boxRecycable"
+            style="@style/Rating"/>
+
+        <TextView
+            style="@style/RatingLabel"
+            android:text="Re-usability" />
+
+        <RatingBar
+            android:id="@+id/rating_boxReusable"
+            style="@style/Rating"/>
+
+</LinearLayout>

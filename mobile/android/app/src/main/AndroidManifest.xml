@@ -2,6 +2,7 @@
     package="com.hackyeah.nowaste">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:name=".MainApplication"
@@ -10,15 +11,39 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
 
-        <activity android:name=".ui.MainActivity">
+        <activity android:name=".ui.WelcomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
+        <activity android:name=".ui.main.MainActivity"
+            android:parentActivityName=".ui.WelcomeActivity"/>
+        <activity
+            android:name=".ui.product.ProductActivity"
+            android:parentActivityName=".ui.main.MainActivity" />
+        <activity
+            android:name=".ui.review.ReviewsActivity"
+            android:parentActivityName=".ui.product.ProductActivity" />
+        <activity
+            android:name=".ui.review.NewReviewActivity"
+            android:parentActivityName=".ui.review.ReviewsActivity" />
+        <activity
+            android:name=".ui.reuse.ReuseListActivity"
+            android:parentActivityName=".ui.product.ProductActivity" />
+        <activity
+            android:name=".ui.reuse.NewReuseActivity"
+            android:parentActivityName=".ui.reuse.ReuseListActivity" />
+        <activity
+            android:name=".ui.coupon.CouponsActivity"
+            android:parentActivityName="ui.main.MainActivity" />
+        <activity
+            android:name=".ui.reuse.ReuseDetailsActivity"
+            android:parentActivityName="ui.reuse.ReuseListActivity" />
     </application>
 
 </manifest>

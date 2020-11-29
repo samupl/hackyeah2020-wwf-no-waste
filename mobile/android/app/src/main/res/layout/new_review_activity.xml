@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingStart="36dp"
+        android:paddingTop="36dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="16dp">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/add_button"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/title"
+                    style="@style/Text.24"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorPrimaryDark"
+                    android:ellipsize="end"
+                    android:maxLines="2"
+                    android:paddingStart="16dp"
+                    android:paddingTop="4dp"
+                    android:paddingEnd="4dp"
+                    android:paddingBottom="4dp"
+                    android:textColor="@color/colorWhite"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/comment_input"
+                    style="@style/Text.16"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorLightGrey"
+                    android:gravity="start|top"
+                    android:hint="Comment"
+                    android:lines="4"
+                    android:paddingStart="16dp"
+                    android:paddingTop="4dp"
+                    android:paddingEnd="4dp"
+                    android:paddingBottom="4dp"
+                    android:textColor="@color/colorPrimary"
+                    android:textColorHint="@color/colorPrimary"/>
+
+                <!-- PRODUCT -->
+                <TextView
+                    android:id="@+id/product_label"
+                    style="@style/RatingLabel"
+                    android:layout_marginBottom="4dp"
+                    android:text="Product"
+                    android:textStyle="bold" />
+
+                <TextView
+                    style="@style/RatingLabel"
+                    android:text="From recycled materials" />
+
+                <RatingBar
+                    android:id="@+id/rating_productFromRecycling"
+                    style="@style/EditableRating" />
+
+                <TextView
+                    style="@style/RatingLabel"
+                    android:text="Recyclable/Biodegradable" />
+
+                <RatingBar
+                    android:id="@+id/rating_productRecycable"
+                    style="@style/EditableRating" />
+
+                <TextView
+                    style="@style/RatingLabel"
+                    android:text="Re-usability" />
+
+                <RatingBar
+                    android:id="@+id/rating_productReusable"
+                    style="@style/EditableRating" />
+
+                <TextView
+                    style="@style/RatingLabel"
+                    android:text="Repairability" />
+
+                <RatingBar
+                    android:id="@+id/rating_repairable"
+                    style="@style/EditableRating" />
+
+                <!-- PACKAGING -->
+                <TextView
+                    android:id="@+id/packaging_label"
+                    style="@style/RatingLabel"
+                    android:layout_marginBottom="4dp"
+                    android:text="Packaging"
+                    android:textStyle="bold" />
+
+                <TextView
+                    style="@style/RatingLabel"
+                    android:text="From recycled materials" />
+
+                <RatingBar
+                    android:id="@+id/rating_boxFromRecycling"
+                    style="@style/EditableRating" />
+
+                <TextView
+                    style="@style/RatingLabel"
+                    android:text="Recyclable/Biodegradable" />
+
+                <RatingBar
+                    android:id="@+id/rating_boxRecycable"
+                    style="@style/EditableRating" />
+
+                <TextView
+                    style="@style/RatingLabel"
+                    android:text="Re-usability" />
+
+                <RatingBar
+                    android:id="@+id/rating_boxReusable"
+                    style="@style/EditableRating" />
+
+            </LinearLayout>
+        </ScrollView>
+
+        <Button
+            android:id="@+id/add_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorAccent"
+            android:text="ADD"
+            android:textColor="@color/colorWhite"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <FrameLayout
+        android:id="@+id/progress_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#66000000"
+        android:clickable="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:visibility="gone">
+
+        <androidx.core.widget.ContentLoadingProgressBar
+            android:id="@+id/ctr_progress_bar"
+            style="@style/Widget.AppCompat.ProgressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:indeterminate="true" />
+
+    </FrameLayout>
+
+</FrameLayout>
