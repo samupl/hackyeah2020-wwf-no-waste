@@ -4,4 +4,4 @@ set -e
 
 python manage.py migrate
 # exec uvicorn coupon_backend.asgi:application --host 0.0.0.0
-exec python manage.py runserver
+exec python manage.py runserver 0.0.0.0:8000
