@@ -71,7 +71,7 @@ public class ProductDBApiClient {
             return null;
         }
 
-        final ResponseEntity<ApiResponse> response = restTemplate.getForEntity(createProductUri(barcode), ApiResponse.class);
+        final ResponseEntity<ApiResponse> response = restTemplate.getForEntity(createProductUri("0"+barcode), ApiResponse.class);
         if (response.getStatusCode() != OK || response.getBody() == null) {
             return null;
         }
@@ -79,7 +79,6 @@ public class ProductDBApiClient {
         if (isEmpty(results)) {
             return null;
         }
-//        restTemplate.getForEntity("https://www.eprodukty.gs1.pl/api/v1/products/get_products/?gtin_number=05900334007780", ApiResponse.class);
         final String productName = productName(results).orElse(null);
         if (productName == null) {
             return null;
