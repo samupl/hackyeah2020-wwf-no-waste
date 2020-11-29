@@ -1,10 +1,12 @@
 package pl.wwf.nowaste.domain.product.reviews.web;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class ReviewCreateRequest {

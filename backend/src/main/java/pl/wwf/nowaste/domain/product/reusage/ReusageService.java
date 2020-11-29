@@ -61,7 +61,7 @@ public class ReusageService {
         final Product product = productService.findById(productId);
         final Set<Reusage> byTags = repository.findByTags(product.getTags().stream()
                 .map(Tag::getId)
-                .collect(toSet()));
+                .collect(toSet()), productId);
         final List<Reusage> proposals = byTags.stream()
                 .filter(reusage -> reusage.getCategories().contains(product.getCategory()))
                 .sorted(comparing(Reusage::rank, reverseOrder()))

@@ -12,6 +12,7 @@ public interface ReusageRepository extends JpaRepository<Reusage, Long> {
 
     @Query("FROM Reusage  r" +
             " JOIN FETCH r.tags t" +
-            " WHERE t.id IN (?1)")
-    Set<Reusage> findByTags(Set<Long> tags);
+            " JOIN FETCH r.product p" +
+            " WHERE t.id IN (?1) AND p.id <> ?2")
+    Set<Reusage> findByTags(Set<Long> tags, Long productId);
 }
