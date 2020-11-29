@@ -4,6 +4,7 @@ import router from "./router";
 import store from "./store";
 import vuetify from "./plugins/vuetify";
 import "./plugins/axios";
+import "./plugins/datetime";
 
 Vue.config.productionTip = false;
 

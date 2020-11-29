@@ -1,11 +1,16 @@
 from django.utils import timezone
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
-from rest_framework.viewsets import ViewSet
+from rest_framework.viewsets import ViewSet, ModelViewSet
 
 from apps.coupons.models import Coupon
-from apps.coupons.serializers import CouponSerializer
+from apps.coupons.serializers import CouponSerializer, CouponModelSerializer
 from apps.db_integration.models import Review
+
+
+class CouponsViewSet(ModelViewSet):
+    queryset = Coupon.objects.all()
+    serializer_class = CouponModelSerializer
 
 
 class UserCouponsViewSet(ViewSet):

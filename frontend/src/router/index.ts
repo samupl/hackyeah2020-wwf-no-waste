@@ -1,4 +1,5 @@
 import CategoriesCRUD from "@/views/CategoriesCRUD.vue";
+import CouponsCRUD from '@/views/CouponsCRUD.vue';
 import Dashboard from "@/views/Dashboard.vue";
 import ErrorNotFound from "@/views/ErrorNotFound.vue";
 import Login from "@/views/Login.vue";
@@ -45,6 +46,12 @@ const routes: Array<RouteConfig> = [
     path: "/products/:id",
     name: "Products-details",
     component: ProductsCRUD,
+    beforeEnter: loginRequiredGuard
+  },
+  {
+    path: "/coupons",
+    name: "Coupons",
+    component: CouponsCRUD,
     beforeEnter: loginRequiredGuard
   },
   {
