@@ -18,5 +18,6 @@ public class ReviewCreateRequest {
     private Integer productFromRecycling;
     private Integer repairable;
     private String comment;
+    private String author;
 
 }

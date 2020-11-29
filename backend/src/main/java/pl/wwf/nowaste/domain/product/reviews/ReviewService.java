@@ -8,13 +8,11 @@ import pl.wwf.nowaste.domain.product.ratings.Rating;
 import pl.wwf.nowaste.domain.product.reviews.web.ReviewCreateRequest;
 
 import javax.persistence.EntityNotFoundException;
-import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.List;
 
 import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.toList;
-import static pl.wwf.nowaste.web.PrincipalUtils.getAuthor;
 import static pl.wwf.nowaste.web.ValidationUtils.check;
 import static pl.wwf.nowaste.web.ValidationUtils.checkNotNull;
 
@@ -22,7 +20,7 @@ import static pl.wwf.nowaste.web.ValidationUtils.checkNotNull;
 @RequiredArgsConstructor
 public class ReviewService {
 
-    private final static int MIN_RATIO = 1;
+    private final static int MIN_RATIO = 0;
     private final static int MAX_RATIO = 5;
 
     private final ReviewRepository repository;
@@ -46,14 +44,13 @@ public class ReviewService {
                 .collect(toList());
     }
 
-    public Review create(ReviewCreateRequest request, Principal principal) {
+    public Review create(ReviewCreateRequest request) {
         validateRequest(request);
-        validateReviewUnique(request.getProductId(), principal);
 
         final Product product = productService.findById(request.getProductId());
         return repository.save(Review.builder()
                 .date(LocalDateTime.now())
-                .author(getAuthor(principal))
+                .author(request.getAuthor())
                 .product(product)
                 .comment(request.getComment())
                 .rating(Rating.builder()
@@ -77,6 +74,7 @@ public class ReviewService {
 
     private void validateRequest(ReviewCreateRequest request) {
         checkNotNull(request, "Request not present.");
+        checkNotNull(request.getAuthor(), "Request Product ID is not present");
         checkNotNull(request.getBoxReusable(), "Request boxReusable not present.");
         checkNotNull(request.getBoxRecycable(), "Request boxRecycable not present.");
         checkNotNull(request.getBoxFromRecycling(), "Request boxFromRecycling not present.");
@@ -99,7 +97,4 @@ public class ReviewService {
         return MIN_RATIO <= rating && rating <= MAX_RATIO;
     }
 
-    private void validateReviewUnique(Long productId, Principal principal) {
-        final Product product = productService.findById(productId);
-    }
 }

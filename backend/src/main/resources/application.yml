@@ -28,3 +28,12 @@ spring:
         enable_lazy_load_no_trans: true
   flyway:
     enabled: true
+
+product:
+  api:
+    url: https://www.eprodukty.gs1.pl/api/v1/products/get_products/
+  google:
+    api:
+      url: https://www.googleapis.com/customsearch/v1
+      key: AIzaSyAycyYYOlOkxIhM177oyrdJYF49ZIwkGkA
+      cx: 730a0e8d6f0408a77

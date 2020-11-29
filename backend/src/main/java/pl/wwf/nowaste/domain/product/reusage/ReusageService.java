@@ -2,7 +2,6 @@ package pl.wwf.nowaste.domain.product.reusage;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 import org.springframework.web.multipart.MultipartFile;
 import pl.wwf.nowaste.domain.category.CategoryService;
 import pl.wwf.nowaste.domain.product.Product;
@@ -15,19 +14,15 @@ import pl.wwf.nowaste.domain.tag.Tag;
 import pl.wwf.nowaste.domain.tag.TagService;
 
 import javax.persistence.EntityNotFoundException;
-import java.security.Principal;
 import java.time.LocalDateTime;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import static java.util.Comparator.comparing;
 import static java.util.Comparator.reverseOrder;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 import static org.springframework.util.CollectionUtils.isEmpty;
-import static pl.wwf.nowaste.web.PrincipalUtils.getAuthor;
 import static pl.wwf.nowaste.web.ValidationUtils.check;
 import static pl.wwf.nowaste.web.ValidationUtils.checkNotNull;
 
@@ -87,7 +82,7 @@ public class ReusageService {
         return reusageTags.size();
     }
 
-    public ReusageDetails create(ReusageCreateRequest request, MultipartFile[] photos, Principal principal) {
+    public ReusageDetails create(ReusageCreateRequest request, MultipartFile[] photos) {
         validateRequest(request);
 
         final Set<String> photoIds = photoService.uploadFiles(photos);
@@ -95,7 +90,7 @@ public class ReusageService {
         final Reusage save = repository.save(Reusage.builder()
                 .date(LocalDateTime.now())
                 .title(request.getTitle())
-                .author(getAuthor(principal))
+                .author(request.getAuthor())
                 .description(request.getDescription())
                 .upVotes(DEFAULT_VOTE_COUNT)
                 .downVotes(DEFAULT_VOTE_COUNT)
@@ -141,6 +136,7 @@ public class ReusageService {
         checkNotNull(request.getTitle(), "Request Title is not present");
         checkNotNull(request.getDescription(), "Request Description is not present");
         checkNotNull(request.getProductId(), "Request Product ID is not present");
+        checkNotNull(request.getAuthor(), "Request Product ID is not present");
         check(productService.existById(request.getProductId()), "Request Product doesn't exist");
         check(!isEmpty(request.getTags()), "Request Tags is not present");
     }

@@ -16,7 +16,6 @@ import pl.wwf.nowaste.domain.product.reusage.web.ReusageCreateRequest;
 import pl.wwf.nowaste.domain.product.reusage.web.ReusageDetails;
 import pl.wwf.nowaste.domain.product.reusage.web.ReusageProposals;
 
-import java.security.Principal;
 import java.util.Set;
 
 import static org.springframework.http.HttpStatus.CREATED;
@@ -47,14 +46,14 @@ public class ReusageController {
 
     @PutMapping(consumes = MULTIPART_FORM_DATA_VALUE)
     @ResponseStatus(CREATED)
-    public ReusageDetails create(@RequestPart("reusage") ReusageCreateRequest request, @RequestPart("photos") MultipartFile[] photos, Principal principal) {
-        return service.create(request, photos, principal);
+    public ReusageDetails create(@RequestPart("reusage") ReusageCreateRequest request, @RequestPart("photos") MultipartFile[] photos) {
+        return service.create(request, photos);
     }
 
     @PutMapping(consumes = APPLICATION_JSON_VALUE)
     @ResponseStatus(CREATED)
-    public ReusageDetails create(@RequestBody ReusageCreateRequest request, Principal principal) {
-        return service.create(request, null, principal);
+    public ReusageDetails create(@RequestBody ReusageCreateRequest request) {
+        return service.create(request, null);
     }
 
     @PostMapping("/{id}/up")

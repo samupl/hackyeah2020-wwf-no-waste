@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import pl.wwf.nowaste.domain.product.reviews.web.ReviewCreateRequest;
 
-import java.security.Principal;
 import java.util.List;
 
 import static org.springframework.http.HttpStatus.CREATED;
@@ -40,8 +39,8 @@ public class ReviewController {
 
     @PutMapping
     @ResponseStatus(CREATED)
-    public Review create(@RequestBody ReviewCreateRequest request, Principal principal) {
-        return service.create(request, principal);
+    public Review create(@RequestBody ReviewCreateRequest request) {
+        return service.create(request);
     }
 
     @DeleteMapping("/{id}")

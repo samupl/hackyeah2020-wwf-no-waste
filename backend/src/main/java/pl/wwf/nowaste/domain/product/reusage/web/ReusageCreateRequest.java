@@ -13,6 +13,7 @@ public class ReusageCreateRequest {
 
     private String title;
     private String description;
+    private String author;
     private Set<String> photos;
     private Long productId;
     private Set<Long> categories;
