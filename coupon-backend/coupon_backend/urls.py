@@ -19,10 +19,11 @@ from django.contrib import admin
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
-from apps.coupons.views import UserCouponsViewSet
+from apps.coupons.views import UserCouponsViewSet, CouponsViewSet
 
 router = DefaultRouter(trailing_slash=False)
 router.register(r"user-coupons", UserCouponsViewSet, basename="user-coupons")
+router.register(r"coupons", CouponsViewSet, basename="coupons")
 
 urlpatterns = [
     path('', include(router.urls)),

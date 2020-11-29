@@ -49,6 +49,11 @@ export default class Sidebar extends Vue {
       to: "/tags"
     },
     {
+      title: "Coupons",
+      icon: "mdi-ticket-percent",
+      to: "/coupons"
+    },
+    {
       title: "Re-use examples",
       icon: "mdi-recycle",
       to: "/reuse"

@@ -10,3 +10,9 @@ class CouponSerializer(serializers.Serializer):
     coupon = serializers.CharField(read_only=True)
     expiry_date = serializers.DateTimeField(read_only=True)
     icon = serializers.ImageField(read_only=True)
+
+
+class CouponModelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Coupon
+        fields = '__all__'

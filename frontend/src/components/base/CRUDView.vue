@@ -112,7 +112,7 @@ interface FormField {
 }
 
 interface ItemType {
-  id?: number;
+  id?: number | string;
 }
 
 @Component
