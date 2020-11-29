@@ -6,11 +6,14 @@ import pl.wwf.nowaste.domain.category.web.CategoryCreateRequest;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
 public class CategoryService {
+
+    public final static String DEFAULT_CATEGORY_NAME = "UNKNOWN";
 
     private final CategoryRepository repository;
 
@@ -25,6 +28,11 @@ public class CategoryService {
 
     public Set<Category> findAllByIdsIn(Set<Long> ids) {
         return repository.findAllByIdIn(ids);
+    }
+
+    public Set<Category> findAllByNameIn(Set<String> names) {
+        return repository.findAllByNameIn(names);
+
     }
 
     public Category create(CategoryCreateRequest request) {
@@ -44,4 +52,13 @@ public class CategoryService {
         repository.deleteById(id);
     }
 
+    public Category findDefault() {
+        final Optional<Category> defaultCategory = repository.findByName(DEFAULT_CATEGORY_NAME);
+        if (defaultCategory.isEmpty()) {
+            return repository.save(Category.builder()
+                    .name(DEFAULT_CATEGORY_NAME)
+                    .build());
+        }
+        return defaultCategory.get();
+    }
 }

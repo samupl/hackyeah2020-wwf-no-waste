@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import pl.wwf.nowaste.domain.category.CategoryService;
+import pl.wwf.nowaste.domain.product.api.ProductDBApiClient;
 import pl.wwf.nowaste.domain.product.photo.PhotoService;
 import pl.wwf.nowaste.domain.product.ratings.RatingService;
 import pl.wwf.nowaste.domain.product.web.ProductCreateRequest;
@@ -26,6 +27,7 @@ public class ProductService {
     private final TagService tagService;
     private final RatingService ratingService;
     private final PhotoService photoService;
+    private final ProductDBApiClient apiClient;
 
     public Product findById(Long id) {
         return repository.findById(id)
@@ -46,11 +48,15 @@ public class ProductService {
             throw new IllegalArgumentException("Empty barcode.");
         }
 
-        final Optional<Product> product = repository.findByBarCode(barcode);
+        if (!repository.existsByBarCode(barcode)) {
+            final Product product = apiClient.downloadProductInfo(barcode);
+            checkNotNull(product, "Could not find product info - incorrect bar code");
+            return convertToDetailsMainView(repository.save(product));
+        }
 
-        return product
+        return repository.findByBarCode(barcode)
                 .map(this::convertToDetailsMainView)
-                .orElseThrow(() -> new EntityNotFoundException("Product with this Bar Code doesn't exist."));
+                .get();
     }
 
     public boolean existById(Long id) {
