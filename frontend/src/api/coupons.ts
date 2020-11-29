@@ -1,7 +1,7 @@
 import Axios from "axios";
 
 export class CouponAPIClient {
-  private static url = process.env.VUE_COUPON_APP_API_URL || "http://127.0.0.1:8000/";
+  private static url = process.env.VUE_APP_COUPON_APP_API_URL || "http://127.0.0.1:8000/";
   private static axios = Axios.create({
     baseURL: CouponAPIClient.url,
     headers: {
